@@ -7,12 +7,44 @@
     <link rel="stylesheet" href="../dist/output.css">
     <title>Exchange Rates</title>
 </head>
+
+
 <body>
-    <header class="flex justify-center top-0 w-72" >
-        <a href="#"><img src="img/logo.png" alt="Page Logo"></a>
+
+
+    <header class="flex justify-center align-middle top-0" >
+        <a href="#"><img src="img/logo2.png" alt="Page Logo" class="w-56"></a>
     </header>
+
     
-    <main>
+    <main class="flex justify-center">
+
+        <form id="rate-selector" class="">
+            
+            <p>Select base coin:</p>
+          
+            <select name="base" id="base-coin">
+                <option value="ARS">ARS</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+            </select>
+            
+            <p>Enter the desireed amount:</p>
+            
+            <input class="bg-slate-600" type="text">
+
+            <button type="submit">let's go!</button>
+
+        </form>
+
+
+        <div id="rate-chart">
+
+        </div>
+
+        <div id="rates-list">
+
+        </div>
 
     </main>
 
