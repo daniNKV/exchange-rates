@@ -7,3 +7,12 @@ async function getRates() {
     return rates.exchange_rates;
 }
 
+async function getFlags($code){
+    const response = await fetch(`https://countryflagsapi.com/svg/${$code} `)
+    const flag = response;
+
+    return flag;
+}
+
+
+
