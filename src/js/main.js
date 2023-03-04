@@ -7,7 +7,7 @@ async function getRates(base = config.DEFAULT_BASE) {
     return rates.exchange_rates;
 }
 
-async function getHistoricRates(date, base = config.DEFAULT_BASE) {
+async function getHistoricalRates(date, base = config.DEFAULT_BASE) {
     // date format = YYYY/MM/DD
     const response = await fetch(`https://exchange-rates.abstractapi.com/v1/historical?api_key=${config.API_KEY}&base=${base}&date=${date}`);
     const rates = await response.json();
@@ -33,8 +33,9 @@ async function update(){
     const selectedCurrency = document.getElementById('base-coin').value;
     // const newRates = await getHistoricalRates(selectedDate, selectedCurrency);
     const newRates = getMockHistoricalRates()
+
     updateDate(selectedDate);
-    populateTable(newRates);
+    updateTable(Object.values(newRates));
 
 }
 
@@ -119,6 +120,10 @@ function populateTable(rates) {
     return
 }
 
+function updateTable(newRates) {
+    const $rates = document.querySelectorAll('.rate');
+    $rates.forEach((rateEl, i) => rateEl.textContent = newRates[i]);
+}
 
 function updateConvertionValues() {
     const amount = Number(document.getElementById('convertion-amount').value);
