@@ -71,10 +71,12 @@ function fillBaseSelector(codes) {
 
 
 function retrieveFlagSource(ALPHA_CODE_3) {
-    // Parse from type 3 to type 2https://flagcdn.com/16x12/za.png
-    return `https://flagcdn.com/28x21/${ALPHA_CODE_3.slice(0,2).toLowerCase()}.webp`
+    return `https://flagcdn.com/28x21/${parseToAlpha2(ALPHA_CODE_3)}.webp`
 }
 
+function parseToAlpha2(ALPHA_3) {
+    return `${ALPHA_3.slice(0,2).toLowerCase()}`
+}
  
 function createRow(coinData) {
     const row = document.getElementById('list-row').content.cloneNode(true);
