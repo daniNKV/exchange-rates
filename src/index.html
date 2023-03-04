@@ -24,18 +24,13 @@
         <form id="rate-selector" class="flex justify-center flex-col w-11/12 max-w-md font-sans mt-5 p-5">
             
             <div class="flex justify-between p-1">
-                <p>Select base coin: </p>
+                <p>Select currency: </p>
                 <select name="base" id="base-coin" class="w-1/2 text-center appearance-none bg-white border-b-2 border-black" >
                     <template id="coin-option">
                         <option value=""></option>
                     </template>
                 </select>
             </div>
-
-            <div class="flex justify-between p-1">
-                <p>Enter the amount: </p>
-                <input class="w-1/2 text-center appearance-none bg-white border-b-2 border-black focus:outline-none" type="number" value="1">
-            </div>    
 
             <div class="flex justify-between p-1 ">
                 <p>Enter the date: </p>
@@ -46,10 +41,14 @@
 
         </form>
 
-        <table class="border-b-2 w-11/12 max-w-screen-sm">
-            <thead>
-                <tr class="border-b-2">
-                    <th colspan="4" id="table-date"></th>
+        <table class="table-auto border-b-2 w-11/12 max-w-screen-sm">
+            <thead >
+                <tr class="border-b-2 text-center">
+                    <th colspan="2"  class="w-1/2" id="table-date"></th>
+                    
+                    <th colspan="2" class="w-1/2">
+                        <input class=" text-center appearance-none bg-white hover:border-b-2 border-black focus:outline-none" placeholder="Amount to convert" type="number">
+                    </th>
                 </tr>
             </thead>
 
@@ -58,7 +57,7 @@
                     <td>Code</td>
                     <td>Flag</td>
                     <td>Rate</td>
-                    <td>Value</td>
+                    <td>Conversion</td>
                 </tr>
 
                 <template id="list-row">
