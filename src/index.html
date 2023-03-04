@@ -21,7 +21,7 @@
     
     <main class="flex flex-col items-center justify-center text-lg  ">
 
-        <form id="rate-selector" class="flex justify-center flex-col w-96 font-sans mt-5 p-5">
+        <form id="rate-selector" class="flex justify-center flex-col w-11/12 max-w-md font-sans mt-5 p-5">
             
             <div class="flex justify-between p-1">
                 <p>Select base coin: </p>
@@ -55,7 +55,7 @@
 
             <tbody class="text-center" id="table-body">
 
-                <tr class="p-2 font-bold ">
+                <tr class="p-2 border-b-2 font-bold ">
                     <td>Code</td>
                     <td>Flag</td>
                     <td>Rate</td>
@@ -63,9 +63,9 @@
                 </tr>
 
                 <template id="list-row">
-                    <tr class="p-2 ">
+                    <tr class="p-2 border-b-2">
                         <td id="code"></td>
-                        <td id="flag" class="w-5"></td>
+                        <td id="flag" class=""></td>
                         <td id="rate"></td>
                         <td id="value"></td>
                     </tr>
