@@ -95,14 +95,16 @@ function parseToAlpha2(ALPHA_3) {
     return `${ALPHA_3.slice(0,2).toLowerCase()}`
 }
  
-function createRow(coinData) {
+function createRow(coinData, actualBase = config.DEFAULT_BASE) {
     const row = document.getElementById('list-row').content.cloneNode(true);
+    const rateEl = row.querySelector('.rate')
     const [code, rate] = [...coinData];
-
+    
     row.querySelector('.code').textContent = code;
-    row.querySelector('.rate').textContent = rate.toFixed(4);
     row.querySelector('.flag').firstChild.src = retrieveFlagSource(code);
-
+    // Place rate = 1 for selected base
+    !(code === actualBase) ? rateEl.textContent = (Number(rate + 1).toFixed(4)) : rateEl.textContent = 1;
+    
     return row;
 }
 
@@ -114,8 +116,8 @@ function appendRow(row) {
 }
 
 
-function populateTable(rates) {
-    Object.entries(rates).forEach(rate => appendRow(createRow(rate)));
+function populateTable(rates, actualBase) {
+    Object.entries(rates).forEach(rate => appendRow(createRow(rate, actualBase)));
 
     return
 }
@@ -132,7 +134,7 @@ function updateConvertionValues() {
     
     const rates = $rates.map(el => Number(el.textContent));
     
-    $values.forEach((el, i) => el.textContent = (rates[i] * amount).toFixed(4) )
+    $values.forEach((el, i) => el.textContent = (amount * rates[i]).toFixed(4) )
 
     return
 }
