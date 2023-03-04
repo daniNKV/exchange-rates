@@ -104,9 +104,8 @@ function createRow(coinData, actualBase = config.DEFAULT_BASE) {
     
     row.querySelector('.code').textContent = code;
     row.querySelector('.flag').firstChild.src = retrieveFlagSource(code);
-    // Place rate = 1 for selected base
-    !(code === actualBase) ? rateEl.textContent = (Number(rate + 1).toFixed(4)) : rateEl.textContent = 1;
-    
+
+    rateEl.textContent = (Number(rate + 1).toFixed(4))    
     return row;
 }
 
@@ -148,9 +147,11 @@ function watchAmountChanges() {
 function hightlightCurrentBase(current = config.DEFAULT_BASE) {
     const color = 'bg-zinc-200'
     const rows = [...document.querySelectorAll('.row')]
+
     const old = rows.find(el => el.classList.contains(`${color}`))
-    const currentEl = rows.filter(el => el.querySelector('.code').textContent === current)[0];
-    
+    const currentEl = rows.find(el => el.querySelector('.code').textContent === current);
+
+    currentEl.querySelector('.rate').textContent = "1";
     currentEl.classList.add(`${color}`)
     old !== undefined ? old.classList.remove(('bg-zinc-200')) : ''
 
