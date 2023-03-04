@@ -18,12 +18,30 @@ async function getHistoricRates(date, base = config.DEFAULT_BASE) {
 async function initialize() {
     // const actualRates = await getRates();
     const actualRates = getMockRates();
+    const actualDate = parseDate(new Date());
+    showActualDate(actualDate);
     fillBaseSelector(Object.keys(actualRates));
     populateTable(actualRates);
 
     return
 }
 
+function showActualDate(date) {
+    const $dateInput = document.getElementById('actual-date');
+    const $tableDate = document.getElementById('table-date');
+    $tableDate.textContent = date;
+    $dateInput.max = date;
+    $dateInput.value = date;
+
+    return
+}
+
+function parseDate(date) {
+    const day = date.getDate()
+    const month = date.getMonth();
+    
+    return `${date.getFullYear()}-${month < 9 ? '0' + (month + 1) : month + 1}-${day < 10 ? '0' + day : day}`;
+}
 
 function createOption(code) {
     const $coinOptionTemplate = document.getElementById('coin-option').cloneNode(true);
