@@ -71,8 +71,8 @@ function fillBaseSelector(codes) {
 
 
 function retrieveFlagSource(ALPHA_CODE_3) {
-    // Parse from type 3 to type 2
-    return `https://flagcdn.com/27x21/${ALPHA_CODE_3.slice(0,2).toLowerCase()}.webp`
+    // Parse from type 3 to type 2https://flagcdn.com/16x12/za.png
+    return `https://flagcdn.com/28x21/${ALPHA_CODE_3.slice(0,2).toLowerCase()}.webp`
 }
 
  
