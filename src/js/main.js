@@ -22,6 +22,7 @@ async function initialize() {
     showActualDate(actualDate);
     fillBaseSelector(Object.keys(actualRates));
     populateTable(actualRates);
+    watchAmountChanges();
 
     return
 }
@@ -83,8 +84,7 @@ function createRow(coinData) {
     const [code, rate] = [...coinData];
 
     row.querySelector('.code').textContent = code;
-    row.querySelector('.rate').textContent = rate;
-    console.log( row.querySelector('.flag').firstChild)
+    row.querySelector('.rate').textContent = rate.toFixed(4);
     row.querySelector('.flag').firstChild.src = retrieveFlagSource(code);
 
     return row;
@@ -103,6 +103,24 @@ function populateTable(rates) {
 
     return
 }
+
+
+function updateConvertionValues() {
+    const amount = Number(document.getElementById('convertion-amount').value);
+    const $rates = [...document.querySelectorAll('.rate')];
+    const $values = document.querySelectorAll('.value');
+    
+    const rates = $rates.map(el => Number(el.textContent));
+    
+    $values.forEach((el, i) => el.textContent = (rates[i] * amount).toFixed(4) )
+
+    return
+}
+
+function watchAmountChanges() {
+    document.getElementById('convertion-amount').addEventListener('input', updateConvertionValues)
+}
+
 
 document.addEventListener('load', initialize())
 
