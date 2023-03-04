@@ -82,9 +82,10 @@ function createRow(coinData) {
     const row = document.getElementById('list-row').content.cloneNode(true);
     const [code, rate] = [...coinData];
 
-    row.getElementById('code').textContent = code;
-    row.getElementById('rate').textContent = rate;
-    row.getElementById('flag').firstChild.src = retrieveFlagSource(code);
+    row.querySelector('.code').textContent = code;
+    row.querySelector('.rate').textContent = rate;
+    console.log( row.querySelector('.flag').firstChild)
+    row.querySelector('.flag').firstChild.src = retrieveFlagSource(code);
 
     return row;
 }
@@ -102,7 +103,6 @@ function populateTable(rates) {
 
     return
 }
-
 
 document.addEventListener('load', initialize())
 

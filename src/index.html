@@ -47,7 +47,7 @@
                     <th colspan="2"  class="w-1/2" id="table-date"></th>
                     
                     <th colspan="2" class="w-1/2">
-                        <input class=" text-center appearance-none bg-white hover:border-b-2 border-black focus:outline-none" placeholder="Amount to convert" type="number">
+                        <input id="convertion-amount" class="text-center appearance-none bg-white hover:border-b-2 border-black focus:outline-none" placeholder="Amount to convert" type="number">
                     </th>
                 </tr>
             </thead>
@@ -62,13 +62,12 @@
 
                 <template id="list-row">
                     <tr class="p-2 border-b-2">
-                        <td id="code"></td>
-                        <td id="flag" class="relative"><img src="" class="absolute inset-2/4 -translate-x-2/4 -translate-y-2/4" alt="" ></td>
-                        <td id="rate"></td>
-                        <td id="value"></td>
+                        <td class="code"></td>
+                        <td class="flag relative"><img class="absolute inset-2/4 -translate-x-2/4 -translate-y-2/4" src="" alt="" ></td>
+                        <td class="rate"></td>
+                        <td class="value"></td>
                     </tr>
                 </template>
-
             </tbody>
         </table>
 
