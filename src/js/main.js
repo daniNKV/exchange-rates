@@ -32,20 +32,21 @@ function showActualDate(date) {
     $tableDate.textContent = date;
     $dateInput.max = date;
     $dateInput.value = date;
-
+    
     return
 }
 
+// Convert from YYYY/MM/DD to YYYY/DD/MM
 function parseDate(date) {
-    const day = date.getDate()
+    const day = date.getDate();
     const month = date.getMonth();
-    
+    // Adds 0 to match the 0X format on single digit numbers 
     return `${date.getFullYear()}-${month < 9 ? '0' + (month + 1) : month + 1}-${day < 10 ? '0' + day : day}`;
 }
 
 function createOption(code) {
     const $coinOptionTemplate = document.getElementById('coin-option').cloneNode(true);
-    const option = $coinOptionTemplate.content.querySelector('option')
+    const option = $coinOptionTemplate.content.querySelector('option');
     option.value = code;
     option.textContent = code;
 
@@ -62,23 +63,29 @@ function appendCoinOption(option) {
 
 
 function fillBaseSelector(codes) {
+    // https://flagcdn.com/en/codes.json TODO: USE NAMES INSTEAD OF ISO-ALPHA-CODES-3
     codes.forEach(code => appendCoinOption(createOption(code)));
 
     return
 }
 
 
-function createRow(coinData) {
-    const flagSource = `https://flagcdn.com/28x21/${coinData[0].slice(0,2).toLowerCase()}.webp`
-    const $rowTemplate = document.getElementById('list-row').content.cloneNode(true);
-
-    $rowTemplate.getElementById('code').textContent = coinData[0];
-    $rowTemplate.getElementById('rate').textContent = coinData[1];
-    $rowTemplate.getElementById('flag').firstChild.src = flagSource;
-
-    return $rowTemplate;
+function retrieveFlagSource(ALPHA_CODE_3) {
+    // Parse from type 3 to type 2
+    return `https://flagcdn.com/27x21/${ALPHA_CODE_3.slice(0,2).toLowerCase()}.webp`
 }
 
+ 
+function createRow(coinData) {
+    const row = document.getElementById('list-row').content.cloneNode(true);
+    const [code, rate] = [...coinData];
+
+    row.getElementById('code').textContent = code;
+    row.getElementById('rate').textContent = rate;
+    row.getElementById('flag').firstChild.src = retrieveFlagSource(code);
+
+    return row;
+}
 
 function appendRow(row) {
     const $tableBody = document.getElementById('table-body');
@@ -89,10 +96,11 @@ function appendRow(row) {
 
 
 function populateTable(rates) {
-    Object.entries(rates).forEach(rate => appendRow(createRow(rate)))
+    Object.entries(rates).forEach(rate => appendRow(createRow(rate)));
 
     return
 }
+
 
 document.addEventListener('load', initialize())
 
