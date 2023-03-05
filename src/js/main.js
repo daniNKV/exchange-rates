@@ -1,7 +1,7 @@
 const DEFAULT_BASE = 'ARS';
 
 async function getRates(base = DEFAULT_BASE) {
-    const response = await fetch(`/.netlify/functions/getRatesURL&base=${base}`);
+    const response = await fetch(`.netlify/functions/get-rates?base=${base}`);
     const rates = await response.json();
     return rates.exchange_rates;
 }
@@ -9,16 +9,16 @@ async function getRates(base = DEFAULT_BASE) {
 // https://exchange-rates.abstractapi.com/v1/historical?api_key=${API_KEY}
 async function getHistoricalRates(date, base = DEFAULT_BASE) {
     // date format = YYYY/MM/DD
-    const response = await fetch(`/.netlify/functions/getHistoricalRatesURL&base=${base}&date=${date}`);
+    const response = await fetch(`.netlify/functions/get-historical-rates?base=${base}&date=${date}`);
     const rates = await response.json();
     
     return rates.exchange_rates;
 }
 
 async function initialize() {
-    // const actualRates = getMockRates();
+    const actualRates = getMockRates();
 
-    const actualRates = await getRates();
+    // const actualRates = await getRates();
     const actualDate = parseDate(new Date());
 
     appendRow(createRow([`${DEFAULT_BASE}`, 0]))
@@ -147,7 +147,6 @@ function createRow(coinData) {
 
     row.querySelector('.code').textContent = code;
     row.querySelector('.flag').firstChild.src = retrieveFlagSource(code);
-
     rateEl.textContent = (Number(rate + 1).toFixed(4))    
     
     return row;
@@ -177,16 +176,16 @@ function updateConvertionValues() {
 
     if (!isPositiveNumber(amount)) {
         highlightError('convertion-amount')
-
-    } else {
-        const $rates = [...document.querySelectorAll('.rate')];
-        const $values = document.querySelectorAll('.value');
-        
-        const rates = $rates.map(el => Number(el.textContent));
-        
-        $values.forEach((el, i) => el.textContent = (amount * rates[i]).toFixed(4) )
+        return
     }
+    const $rates = [...document.querySelectorAll('.rate')];
+    const $values = document.querySelectorAll('.value');
     
+    const rates = $rates.map(el => Number(el.textContent));
+    
+    $values.forEach((el, i) => el.textContent = (amount * rates[i]).toFixed(4) )
+
+
     return
 }
 
