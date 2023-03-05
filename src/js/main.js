@@ -1,5 +1,3 @@
-console.log(process.env.ABSTRACT_API_KEY)
-
 async function getRates(base = config.DEFAULT_BASE) {
     const response = await fetch(`https://exchange-rates.abstractapi.com/v1/live/?api_key=${config.API_KEY}&base=${base}`);
     const rates = await response.json();
