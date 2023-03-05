@@ -29,16 +29,46 @@ async function initialize() {
     return
 }
 
-async function update(){
+function validate(){
     const selectedDate = document.getElementById('date-input').value;
     const selectedCurrency = document.getElementById('base-coin').value;
-    // const newRates = await getHistoricalRates(selectedDate, selectedCurrency);
+    
+    dateIsValid(selectedDate) ? update(selectedDate, selectedCurrency) : highlightError('date-input');
+}
+
+function highlightError(elementID) {
+    const element = document.getElementById(`${elementID}`);
+    element.classList.add('border-2');
+    element.classList.add('border-red-500')
+
+    setTimeout(() => {
+        element.classList.remove('border-2');
+        element.classList.remove('border-red-500');
+    }, 3000)
+}
+const $amountInput = document.getElementById('convertion-amount');
+
+
+
+function dateIsValid(date) {
+    const actualDate = new Date();
+    const isBeforeToday =  (Date.parse(actualDate) - Date.parse(date)) > 0;
+
+    return isBeforeToday;
+    
+}
+
+function isPositiveNumber(number) {
+    return number > 0 && typeof(number) === 'number' ;
+}
+
+function update(date, currency) {
+    // const newRates = await getHistoricalRates(date, currency);
     const newRates = getMockHistoricalRates()
 
-    updateDate(selectedDate);
+    updateDate(date);
     updateTable(Object.values(newRates));
-    hightlightCurrentBase(selectedCurrency);
-
+    hightlightCurrentBase(currency);
 }
 
 function setActualDate(date) {
@@ -97,7 +127,7 @@ function parseToAlpha2(ALPHA_3) {
     return `${ALPHA_3.slice(0,2).toLowerCase()}`
 }
  
-function createRow(coinData, actualBase = config.DEFAULT_BASE) {
+function createRow(coinData) {
     const row = document.getElementById('list-row').content.cloneNode(true);
     const rateEl = row.querySelector('.rate')
     const [code, rate] = [...coinData];
@@ -130,13 +160,19 @@ function updateTable(newRates) {
 
 function updateConvertionValues() {
     const amount = Number(document.getElementById('convertion-amount').value);
-    const $rates = [...document.querySelectorAll('.rate')];
-    const $values = document.querySelectorAll('.value');
-    
-    const rates = $rates.map(el => Number(el.textContent));
-    
-    $values.forEach((el, i) => el.textContent = (amount * rates[i]).toFixed(4) )
 
+    if (!isPositiveNumber(amount)) {
+        highlightError('convertion-amount')
+
+    } else {
+        const $rates = [...document.querySelectorAll('.rate')];
+        const $values = document.querySelectorAll('.value');
+        
+        const rates = $rates.map(el => Number(el.textContent));
+        
+        $values.forEach((el, i) => el.textContent = (amount * rates[i]).toFixed(4) )
+    }
+    
     return
 }
 
@@ -153,12 +189,13 @@ function hightlightCurrentBase(current = config.DEFAULT_BASE) {
 
     currentEl.querySelector('.rate').textContent = "1";
     currentEl.classList.add(`${color}`)
+
     old !== undefined ? old.classList.remove(('bg-zinc-200')) : ''
 
 }
 
 document.addEventListener('load', initialize())
-document.getElementById('submit-button').addEventListener('click', update);
+document.getElementById('submit-button').addEventListener('click', validate);
 
 function getMockHistoricalRates() {
     return {
