@@ -8,7 +8,7 @@ module.exports = {
       'sans': ['Roboto']
     },
     purge: [
-      "./public/index.html",
+      "./src/index.html",
     ],
 
     extend: {},
