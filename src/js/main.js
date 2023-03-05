@@ -16,25 +16,47 @@ async function getHistoricalRates(date, base = config.DEFAULT_BASE) {
 }
 
 async function initialize() {
-    // const actualRates = await getRates();
-    const actualRates = getMockRates();
+    // const actualRates = getMockRates();
+
+    const actualRates = await getRates();
     const actualDate = parseDate(new Date());
+
+    appendRow(createRow([`${config.DEFAULT_BASE}`, 0]))
     setActualDate(actualDate);
     updateDate(actualDate);
     fillBaseSelector(Object.keys(actualRates));
     populateTable(actualRates);
-    hightlightCurrentBase();
     watchAmountChanges();
-
+    hightlightCurrentBase()
+    
     return
+}
+
+
+async function update(date, currency, needHistorical) {
+    if (needHistorical) {
+        const newRates = await getHistoricalRates(date, currency);
+        makeChanges(date, newRates, currency);
+    } else {
+        const newRates = await getRates(currency);
+        makeChanges(date, newRates, currency)
+    }
+}
+
+function makeChanges(date, newRates, currency) {
+    updateDate(date);
+    updateTable(Object.values(newRates));
+    hightlightCurrentBase(currency);
 }
 
 function validate(){
     const selectedDate = document.getElementById('date-input').value;
     const selectedCurrency = document.getElementById('base-coin').value;
+    const needHistorical = selectedDate !== parseDate(new Date());
     
-    dateIsValid(selectedDate) ? update(selectedDate, selectedCurrency) : highlightError('date-input');
+    dateIsValid(selectedDate) ? update(selectedDate, selectedCurrency, needHistorical) : highlightError('date-input');
 }
+
 
 function highlightError(elementID) {
     const element = document.getElementById(`${elementID}`);
@@ -46,8 +68,6 @@ function highlightError(elementID) {
         element.classList.remove('border-red-500');
     }, 3000)
 }
-const $amountInput = document.getElementById('convertion-amount');
-
 
 
 function dateIsValid(date) {
@@ -59,17 +79,9 @@ function dateIsValid(date) {
 }
 
 function isPositiveNumber(number) {
-    return number > 0 && typeof(number) === 'number' ;
+    return number >= 0 && typeof(number) === 'number' ;
 }
 
-function update(date, currency) {
-    // const newRates = await getHistoricalRates(date, currency);
-    const newRates = getMockHistoricalRates()
-
-    updateDate(date);
-    updateTable(Object.values(newRates));
-    hightlightCurrentBase(currency);
-}
 
 function setActualDate(date) {
     const $dateInput = document.getElementById('date-input');
@@ -113,6 +125,7 @@ function appendCoinOption(option) {
 
 function fillBaseSelector(codes) {
     // https://flagcdn.com/en/codes.json TODO: USE NAMES INSTEAD OF ISO-ALPHA-CODES-3
+    appendCoinOption(createOption('ARS'))
     codes.forEach(code => appendCoinOption(createOption(code)));
 
     return
@@ -131,11 +144,12 @@ function createRow(coinData) {
     const row = document.getElementById('list-row').content.cloneNode(true);
     const rateEl = row.querySelector('.rate')
     const [code, rate] = [...coinData];
-    
+
     row.querySelector('.code').textContent = code;
     row.querySelector('.flag').firstChild.src = retrieveFlagSource(code);
 
     rateEl.textContent = (Number(rate + 1).toFixed(4))    
+    
     return row;
 }
 
@@ -183,7 +197,7 @@ function watchAmountChanges() {
 function hightlightCurrentBase(current = config.DEFAULT_BASE) {
     const color = 'bg-zinc-200'
     const rows = [...document.querySelectorAll('.row')]
-
+    
     const old = rows.find(el => el.classList.contains(`${color}`))
     const currentEl = rows.find(el => el.querySelector('.code').textContent === current);
 
