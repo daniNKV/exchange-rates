@@ -1,4 +1,4 @@
-const API_KEY = process.env.ABSTRACT_API_KEY;
+const API_KEY = process.env.ABSTRACT_KEY;
 
 async function getRates(base = config.DEFAULT_BASE) {
     const response = await fetch(`https://exchange-rates.abstractapi.com/v1/live/?api_key=${API_KEY}&base=${base}`);
