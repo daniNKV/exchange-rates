@@ -16,9 +16,9 @@ async function getHistoricalRates(date, base = DEFAULT_BASE) {
 }
 
 async function initialize() {
-    const actualRates = getMockRates();
+    // const actualRates = getMockRates();
 
-    // const actualRates = await getRates();
+    const actualRates = await getRates();
     const actualDate = parseDate(new Date());
 
     appendRow(createRow([`${DEFAULT_BASE}`, 0]))
