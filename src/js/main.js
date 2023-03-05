@@ -1,14 +1,15 @@
+const DEFAULT_BASE = 'ARS';
 
-async function getRates(base = config.DEFAULT_BASE) {
-    const response = await fetch(`/.netlify/functions/&base=${base}`);
+async function getRates(base = DEFAULT_BASE) {
+    const response = await fetch(`/.netlify/functions/getRatesURL&base=${base}`);
     const rates = await response.json();
     return rates.exchange_rates;
 }
 // https://exchange-rates.abstractapi.com/v1/live/?api_key=${API_KEY}
 // https://exchange-rates.abstractapi.com/v1/historical?api_key=${API_KEY}
-async function getHistoricalRates(date, base = config.DEFAULT_BASE) {
+async function getHistoricalRates(date, base = DEFAULT_BASE) {
     // date format = YYYY/MM/DD
-    const response = await fetch(`/.netlify/functions/&base=${base}&date=${date}`);
+    const response = await fetch(`/.netlify/functions/getHistoricalRatesURL&base=${base}&date=${date}`);
     const rates = await response.json();
     
     return rates.exchange_rates;
@@ -20,7 +21,7 @@ async function initialize() {
     const actualRates = await getRates();
     const actualDate = parseDate(new Date());
 
-    appendRow(createRow([`${config.DEFAULT_BASE}`, 0]))
+    appendRow(createRow([`${DEFAULT_BASE}`, 0]))
     setActualDate(actualDate);
     updateDate(actualDate);
     fillBaseSelector(Object.keys(actualRates));
@@ -193,7 +194,7 @@ function watchAmountChanges() {
     document.getElementById('convertion-amount').addEventListener('input', updateConvertionValues)
 }
 
-function hightlightCurrentBase(current = config.DEFAULT_BASE) {
+function hightlightCurrentBase(current = DEFAULT_BASE) {
     const color = 'bg-zinc-200'
     const rows = [...document.querySelectorAll('.row')]
     
