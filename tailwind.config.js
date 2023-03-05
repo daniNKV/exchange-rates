@@ -7,6 +7,9 @@ module.exports = {
       'display': ['Staaltliches'],
       'sans': ['Roboto']
     },
+    purge: [
+      "./public/index.html",
+    ],
 
     extend: {},
   },
