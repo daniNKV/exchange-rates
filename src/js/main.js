@@ -1,15 +1,14 @@
-const API_KEY = process.env.ABSTRACT_KEY;
 
 async function getRates(base = config.DEFAULT_BASE) {
-    const response = await fetch(`https://exchange-rates.abstractapi.com/v1/live/?api_key=${API_KEY}&base=${base}`);
+    const response = await fetch(`/.netlify/functions/&base=${base}`);
     const rates = await response.json();
-
     return rates.exchange_rates;
 }
-
+// https://exchange-rates.abstractapi.com/v1/live/?api_key=${API_KEY}
+// https://exchange-rates.abstractapi.com/v1/historical?api_key=${API_KEY}
 async function getHistoricalRates(date, base = config.DEFAULT_BASE) {
     // date format = YYYY/MM/DD
-    const response = await fetch(`https://exchange-rates.abstractapi.com/v1/historical?api_key=${API_KEY}&base=${base}&date=${date}`);
+    const response = await fetch(`/.netlify/functions/&base=${base}&date=${date}`);
     const rates = await response.json();
     
     return rates.exchange_rates;
