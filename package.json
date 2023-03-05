@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-live": "npx tailwindcss -i ./src/input.css -o ./src/dist/output.css --watch",
-    "build": "npx tailwindcss -i ./src/input.css -o ./src/dist/output.css"
+    "build": "npx tailwindcss -i ./src/input.css -o ./src/dist/output.css",
+    "dev": "netlify dev"
   },
   "author": "daniNKV",
   "license": "ISC",
@@ -16,5 +17,8 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",
     "tailwindcss": "^3.2.7"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
   }
 }
