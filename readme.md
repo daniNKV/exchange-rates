@@ -57,10 +57,19 @@ git clone https://github.com/daniNKV/exchange-rates.git
 ```sh
 npm install
 ```
-4. Enter your API in `.env`
+4. Create a file in src/ called .env and enter your API
 ```JS
 const ABSTRACT_KEY = 'ENTER YOUR API';
 ```
+5. Build the tailwind CSS
+```sh
+npm run build
+```
+6. Open the local server
+```sh
+netlify dev
+```
+
 
 
 <!-- LICENSE -->
