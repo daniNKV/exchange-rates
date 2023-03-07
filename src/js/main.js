@@ -1,18 +1,17 @@
 const DEFAULT_BASE = 'ARS';
 
 async function initialize() {
-    // const actualRates = getMockRates();
-
     const actualRates = await getRates();
     const actualDate = parseDate(new Date());
+    // const actualRates = getMockRates();
 
-    appendRow(createRow([`${DEFAULT_BASE}`, 0]))
+    appendRow(createRow([`${DEFAULT_BASE}`, 0]));
     setActualDate(actualDate);
     updateDate(actualDate);
     fillBaseSelector(Object.keys(actualRates));
     populateTable(actualRates);
     watchAmountChanges();
-    hightlightCurrentBase()
+    hightlightCurrentBase();
     
     return
 }
@@ -22,7 +21,7 @@ async function update(date, currency, needHistorical) {
     if (needHistorical) {
         makeChanges(date, await getHistoricalRates(date, currency), currency);
     } else {
-        makeChanges(date, await getRates(currency), currency)
+        makeChanges(date, await getRates(currency), currency);
     }
 
     return
@@ -93,7 +92,7 @@ function createOption(code) {
     option.value = code;
     option.textContent = code;
 
-    return option
+    return option;
 }
 
 
@@ -108,12 +107,11 @@ function appendCoinOption(option) {
 
 // https://flagcdn.com/en/codes.json TODO: USE NAMES INSTEAD OF ISO-ALPHA-CODES-3
 function fillBaseSelector(codes) {
-    appendCoinOption(createOption('ARS'))
+    appendCoinOption(createOption(DEFAULT_BASE))
     
     codes.forEach(code => appendCoinOption(createOption(code)));
 
     return
-
 }
 
 
@@ -124,7 +122,7 @@ function createRow(coinData) {
 
     row.querySelector('.code').textContent = code;
     row.querySelector('.flag').firstChild.src = retrieveFlagSource(code);
-    rateEl.textContent = (Number(rate + 1).toFixed(4))    
+    rateEl.textContent = (Number(rate + 1).toFixed(4));    
     
     return row;
 }
@@ -158,7 +156,7 @@ function updateConvertionValues() {
     const amount = Number(document.getElementById('convertion-amount').value);
 
     if (!isPositiveNumber(amount)) {
-        highlightError('convertion-amount')
+        highlightError('convertion-amount');
         return
     }
     const $rates = [...document.querySelectorAll('.rate')];
@@ -166,7 +164,7 @@ function updateConvertionValues() {
     
     const rates = $rates.map(el => Number(el.textContent));
     
-    $values.forEach((el, i) => el.textContent = (amount * rates[i]).toFixed(4) )
+    $values.forEach((el, i) => el.textContent = (amount * rates[i]).toFixed(4));
 
 
     return
@@ -177,32 +175,34 @@ function highlightError(elementID) {
     const element = document.getElementById(`${elementID}`);
     
     element.classList.add('border-2');
-    element.classList.add('border-red-500')
+    element.classList.add('border-red-500');
 
     setTimeout(() => {
         element.classList.remove('border-2');
         element.classList.remove('border-red-500');
     }, 3000)
+
+    return
 }
 
 
 function hightlightCurrentBase(current = DEFAULT_BASE) {
-    const color = 'bg-zinc-200'
-    const rows = [...document.querySelectorAll('.row')]
+    const color = 'bg-zinc-200';
+    const rows = [...document.querySelectorAll('.row')];
     const old = rows.find(el => el.classList.contains(`${color}`))
     const currentEl = rows.find(el => el.querySelector('.code').textContent === current);
 
     currentEl.querySelector('.rate').textContent = "1";
-    currentEl.classList.add(`${color}`)
+    currentEl.classList.add(`${color}`);
 
-    old !== undefined ? old.classList.remove(('bg-zinc-200')) : ''
+    old !== undefined ? old.classList.remove(('bg-zinc-200')) : '';
 
     return
 }
 
 
 function retrieveFlagSource(ALPHA_CODE_3) {
-    return `https://flagcdn.com/28x21/${parseToAlpha2(ALPHA_CODE_3)}.webp`
+    return `https://flagcdn.com/28x21/${parseToAlpha2(ALPHA_CODE_3)}.webp`;
 }
 
 
@@ -237,11 +237,13 @@ function isPositiveNumber(number) {
 
 
 function watchAmountChanges() {
-    document.getElementById('convertion-amount').addEventListener('input', updateConvertionValues)
+    document.getElementById('convertion-amount').addEventListener('input', updateConvertionValues);
+
+    return
 }
 
 
-document.addEventListener('load', initialize())
+document.addEventListener('load', initialize());
 document.getElementById('submit-button').addEventListener('click', validate);
 
 
