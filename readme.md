@@ -34,6 +34,7 @@ Another project for the r-ArgentinaPrograma course, instructed by Fabricio Sodan
 
 * Vainilla HTML && JS
 * [Tailwind](https://tailwindcss.com)
+* Test with Cypress.js
 
 <!-- GETTING STARTED -->
 ## Getting Started
