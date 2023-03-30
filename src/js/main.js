@@ -1,9 +1,9 @@
 const DEFAULT_BASE = 'ARS';
 
 async function initialize() {
-    // const actualRates = await getRates();
+    const actualRates = await getRates();
     const actualDate = parseDate(new Date());
-    const actualRates = getMockRates();
+    // const actualRates = getMockRates();
 
     appendRow(createRow([`${DEFAULT_BASE}`, 0]));
     setActualDate(actualDate);
@@ -19,8 +19,8 @@ async function initialize() {
 
 async function update(date, currency, needHistorical) {
     if (needHistorical) {
-        // makeChanges(date, await getHistoricalRates(date, currency), currency);
-        makeChanges(date, getMockHistoricalRates(), currency);
+        makeChanges(date, await getHistoricalRates(date, currency), currency);
+        // makeChanges(date, getMockHistoricalRates(), currency);
     } else {
         makeChanges(date, await getRates(currency), currency);
     }
