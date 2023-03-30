@@ -123,7 +123,7 @@ function createRow(coinData) {
 
     row.querySelector('.code').textContent = code;
     row.querySelector('.flag').firstChild.src = retrieveFlagSource(code);
-    rateEl.textContent = (Number(rate + 1).toFixed(4));    
+    rateEl.textContent = (Number(rate).toFixed(4));    
     
     return row;
 }
