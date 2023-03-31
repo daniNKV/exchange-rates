@@ -1,5 +1,6 @@
-
-import { getRates, getHistoricalRates, DEFAULT_BASE, retrieveFlagSource} from './exchange.js';
+import {
+    getRates, getHistoricalRates, DEFAULT_BASE, retrieveFlagSource,
+} from './exchange';
 import {
     setActualDate,
     updateDate,
@@ -8,10 +9,10 @@ import {
     populateTable,
     watchAmountChanges,
     hightlightCurrentBase,
-    highlightError
-} from './ui.js';
+    highlightError,
+} from './ui';
 
-import { parseDate, dateIsValid } from './utils.js';
+import { parseDate, dateIsValid } from './utils';
 
 async function initialize() {
     const actualRates = await getRates();
@@ -23,10 +24,7 @@ async function initialize() {
     populateTable(actualRates, retrieveFlagSource, DEFAULT_BASE);
     watchAmountChanges();
     hightlightCurrentBase(DEFAULT_BASE);
-    
-    return
 }
-
 
 async function update(date, currency, needHistorical) {
     if (needHistorical) {
@@ -34,19 +32,19 @@ async function update(date, currency, needHistorical) {
     } else {
         makeChanges(date, await getRates(currency), currency);
     }
-
-    return
 }
 
-
-function validateChanges(){
+function validateChanges() {
     const selectedDate = document.getElementById('date-input').value;
     const selectedCurrency = document.getElementById('base-coin').value;
     const needHistorical = selectedDate !== parseDate(new Date());
-    
-    dateIsValid(selectedDate) ? update(selectedDate, selectedCurrency, needHistorical) : highlightError('date-input');
-}
 
+    if (dateIsValid(selectedDate)) {
+        update(selectedDate, selectedCurrency, needHistorical);
+    } else {
+        highlightError('date-input');
+    }
+}
 
 document.addEventListener('load', initialize());
 document.getElementById('submit-button').addEventListener('click', validateChanges);
