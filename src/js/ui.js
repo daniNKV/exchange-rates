@@ -39,18 +39,19 @@ export function fillBaseSelector(codes, defaultBase) {
 export function hightlightCurrentBase(current) {
     const color = 'bg-zinc-200';
     const rows = [...document.querySelectorAll('.row')];
-    const old = rows.find((el) => el.classList.contains(`${color}`));
+    const old = rows.find((el) => el.classList.contains(color));
     const currentEl = rows.find((el) => el.getAttribute('data-code') === current);
 
     currentEl.querySelector('.rate').textContent = '1';
-    currentEl.classList.add(`${color}`);
+    currentEl.classList.add(color);
 
     if (old !== undefined && old !== currentEl) {
-        old.classList.remove(('bg-zinc-200'));
+        old.classList.remove((color));
     }
 }
 
 export function highlightError(elementID) {
+    const DELAY_IN_MS = 3000;
     const element = document.getElementById(`${elementID}`);
 
     element.classList.add('border-2');
@@ -59,7 +60,7 @@ export function highlightError(elementID) {
     setTimeout(() => {
         element.classList.remove('border-2');
         element.classList.remove('border-red-500');
-    }, 3000);
+    }, DELAY_IN_MS);
 }
 
 function createRow(coinData, flags) {
