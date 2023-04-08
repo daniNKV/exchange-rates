@@ -1,4 +1,4 @@
-import { isPositiveNumber } from './utils';
+import { isPositiveNumber } from './utils.js';
 
 export function setActualDate(date) {
     const $dateInput = document.getElementById('date-input');

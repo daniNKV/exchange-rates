@@ -1,6 +1,6 @@
 import {
     getRates, getHistoricalRates, DEFAULT_BASE, retrieveFlagSource,
-} from './exchange';
+} from './services/api/exchange.js';
 import {
     setActualDate,
     updateDate,
@@ -10,11 +10,11 @@ import {
     watchAmountChanges,
     hightlightCurrentBase,
     highlightError,
-} from './ui';
+} from './ui/ui';
 
-import { parseDate, dateIsValid } from './utils';
+import { parseDate, dateIsValid } from './ui/utils';
 
-async function initialize() {
+export default async function initialize() {
     const actualRates = await getRates();
     const actualDate = parseDate(new Date());
 
