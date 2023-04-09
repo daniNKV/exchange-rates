@@ -1,50 +1,33 @@
+import getRates from './services/exchange.js';
 import {
-    getRates, getHistoricalRates, DEFAULT_BASE, retrieveFlagSource,
-} from './services/api/exchange.js';
-import {
-    setActualDate,
     updateDate,
-    makeChanges,
-    fillBaseSelector,
+    fillSelectors,
     populateTable,
     watchAmountChanges,
-    hightlightCurrentBase,
-    highlightError,
-} from './ui/ui';
+    validateChanges,
+    getChanges,
+    makeChanges,
+    
+} from './ui/ui.js';
+import { parseDate as parseTimestamp } from './ui/utils.js';
 
-import { parseDate, dateIsValid } from './ui/utils';
-
-export default async function initialize() {
-    const actualRates = await getRates();
-    const actualDate = parseDate(new Date());
-
-    setActualDate(actualDate);
-    updateDate(actualDate);
-    fillBaseSelector(Object.keys(actualRates), DEFAULT_BASE);
-    populateTable(actualRates, retrieveFlagSource, DEFAULT_BASE);
+async function initialize() {
+    const DEFAULT_BASE = 'ARS';
+    const rates = await getRates(DEFAULT_BASE);
+    const { base, coins, date, flags_source } = rates;
+    updateDate(date);
+    fillSelectors(base, coins);
+    populateTable(base, coins, flags_source);
     watchAmountChanges();
-    hightlightCurrentBase(DEFAULT_BASE);
 }
 
-async function update(date, currency, needHistorical) {
-    if (needHistorical) {
-        makeChanges(date, await getHistoricalRates(date, currency), currency);
-    } else {
-        makeChanges(date, await getRates(currency), currency);
-    }
-}
-
-function validateChanges() {
-    const selectedDate = document.getElementById('date-input').value;
-    const selectedCurrency = document.getElementById('base-coin').value;
-    const needHistorical = selectedDate !== parseDate(new Date());
-
-    if (dateIsValid(selectedDate)) {
-        update(selectedDate, selectedCurrency, needHistorical);
-    } else {
-        highlightError('date-input');
+async function updateRates() {
+    e.preventDefault();
+    const { date, currency } = getChanges();
+    if (validateChanges(date, currency)) {
+        makeChanges(date, await getRates(currency, parseTimestamp(date)));
     }
 }
 
 document.addEventListener('load', initialize());
-document.getElementById('submit-button').addEventListener('click', validateChanges);
+document.getElementById('submit-button').addEventListener('click', updateRates);
