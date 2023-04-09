@@ -1,14 +1,22 @@
 const DEFAULT_BASE = 'ARS';
 
-async function getActualRates(base) {
+async function getActual(base = DEFAULT_BASE) {
     const response = await fetch(`.netlify/functions/get-rates?base=${base}`);
-    return await response.json().exchange_rates;
+    return await response.json();
 }
 
-async function getHistoricalRates(date, base) {
+async function getHistorical(date, base = DEFAULT_BASE) {
     // date format = YYYY/MM/DD
+    console.log(getHistorical)
     const response = await fetch(`.netlify/functions/get-historical-rates?base=${base}&date=${date}`);
-    return await response.json().exchange_rates;
+    return await response.json();
+}
+
+export async function getRates(base = DEFAULT_BASE, date = '') {
+    const rates = date 
+        ? await getHistorical(date, base) 
+        : await getActual(base);
+    return rates;
 }
 
 export function getFlagSource(ALPHA_CODE_3) {
@@ -16,9 +24,4 @@ export function getFlagSource(ALPHA_CODE_3) {
     return `https://flagcdn.com/28x21/${parseToAlpha2(ALPHA_CODE_3)}.webp`;
 }
 
-export default async function getRates(base = DEFAULT_BASE, date = undefined) {
-    return date 
-        ? getHistoricalRates(date, base) 
-        : getActualRates(base);
-}
 
