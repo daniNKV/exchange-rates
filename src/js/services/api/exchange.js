@@ -1,16 +1,5 @@
 const DEFAULT_BASE = 'ARS';
-
-async function getActual(base = DEFAULT_BASE) {
-    const response = await fetch(`.netlify/functions/get-rates?base=${base}`);
-    return await response.json();
-}
-
-async function getHistorical(date, base = DEFAULT_BASE) {
-    // date format = YYYY/MM/DD
-    console.log(getHistorical)
-    const response = await fetch(`.netlify/functions/get-historical-rates?base=${base}&date=${date}`);
-    return await response.json();
-}
+import { getActual, getHistorical } from './api.js';
 
 export async function getRates(base = DEFAULT_BASE, date = '') {
     const rates = date 
