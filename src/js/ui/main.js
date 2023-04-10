@@ -32,8 +32,10 @@ export async function makeChanges(date, rates) {
 }
 
 export function initializeTable(rates) {
-    updateDate(parseDate(rates.date));
-    fillSelectors(rates.base, rates.coins);
-    populateTable(rates.base, rates.coins);
-    watchAmountChanges();
+    const {
+        base, date, coins, getFlagSource,
+    } = rates;
+    updateDate(parseDate(date));
+    fillSelectors(base, coins);
+    populateTable(base, coins, getFlagSource);
 }

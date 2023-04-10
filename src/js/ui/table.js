@@ -1,11 +1,11 @@
 import { isPositiveNumber, highlightError } from './utils.js';
 
-function createRow(coin) {
+function createRow(coin, callback) {
     const row = document.getElementById('list-row').content.cloneNode(true);
     const rateEl = row.querySelector('.rate');
-    const { code, value, imageUrl } = coin;
+    const { code, value } = coin;
     row.querySelector('.code').textContent = code;
-    row.querySelector('.flag').firstChild.src = imageUrl;
+    row.querySelector('.flag').firstChild.src = callback(code);
     row.querySelector('tr').setAttribute('data-code', code);
     rateEl.textContent = (Number(value).toFixed(4));
     return row;
@@ -16,8 +16,8 @@ function appendRow(row) {
     $tableBody.appendChild(row);
 }
 
-function makeRows(rates) {
-    rates.map((rate) => appendRow(createRow(rate)));
+function makeRows(rates, callback) {
+    rates.map((rate) => appendRow(createRow(rate, callback)));
 }
 
 export function updateTable(newRates) {
@@ -59,7 +59,7 @@ export function setTableDate(date) {
     $tableDate.textContent = date;
 }
 
-export function populateTable(base, rates) {
-    makeRows(rates);
+export function populateTable(base, rates, callback) {
+    makeRows(rates, callback);
     hightlightCurrentBase(base);
 }

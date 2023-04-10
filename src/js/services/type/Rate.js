@@ -1,7 +1,6 @@
 export default class Rate {
-    constructor(code = 'Undefined', value = 0, link = 'Undefined') {
+    constructor(code = 'Undefined', value = 0) {
         this.code = code;
         this.value = value;
-        this.imageUrl = link;
     }
 }
