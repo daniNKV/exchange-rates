@@ -2,6 +2,33 @@
 /// <reference types="Cypress" />
 
 describe('Homepage', () => {
+    let fetchPolyfill;
+    before(() => {
+        const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js';
+
+        cy.request(polyfillUrl)
+            .then((response) => {
+                fetchPolyfill = response.body;
+            });
+
+        cy.intercept('.netlify/functions/get-rates?base=ARS', { fixture: 'first-page.json' }).as('getFirstPage');
+
+        cy.visit('http://localhost:8888/', {
+            onBeforeLoad(contentWindow) {
+                // eslint-disable-next-line no-param-reassign
+                delete contentWindow.fetch;
+                contentWindow.eval(fetchPolyfill);
+                // eslint-disable-next-line no-param-reassign
+                contentWindow.fetch = contentWindow.unfetch;
+            },
+        });
+    });
+
+    beforeEach(() => {
+        cy.visit('http://localhost:8888/');
+        cy.wait('@getFirstPage');
+    });
+
     it('Logo', () => {
         cy.getByData('logo').should('be.visible');
     });
