@@ -1,4 +1,4 @@
-import { parseDate, validateChanges } from './utils.js';
+import { validateChanges } from './utils.js';
 import {
     fillSelectors,
     setInputDate,
@@ -35,7 +35,7 @@ export function initializeTable(rates) {
     const {
         base, date, coins, getFlagSource,
     } = rates;
-    updateDate(parseDate(date));
+    updateDate(date);
     fillSelectors(base, coins);
     populateTable(base, coins, getFlagSource);
 }
