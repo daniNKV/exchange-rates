@@ -1,21 +1,21 @@
 import Rates from './type/Rates.js';
-import { getRates as getRatesFromApi, getFlagSource } from './api/exchange.js' ;
+import fetchRates from './api/exchange.js';
 import { getRates as getRatesFromStorage, saveRates } from './storage/exchange.js';
+import { parseDate } from '../ui/utils.js';
 
-export default async function getRates(code, date) {
+export default async function getRates(code = '', date = '') {
     try {
-        return await getRatesFromStorage(code, date);
-    } catch (e) {
-        const { base, last_updated, exchange_rates } = await getRatesFromApi(code, date);
-        const rates = new Rates(base, Object.assign({}, exchange_rates), last_updated, getFlagSource);   
-        saveRates(rates);
+        return getRatesFromStorage(code, date);
+    } catch (error) {
+        const api = await fetchRates(code, date);
+        const baseRate = [[api.base, 1]];
+        const rates = new Rates({
+            base: api.base,
+            rates: baseRate.concat(Object.entries(api.coins)),
+            date: api.date,
+            callback: api.flagSource,
+        });
+        saveRates(rates.base, parseDate(rates.date), rates.coins);
         return rates;
     }
 }
-
-
-
-
-
-
-
