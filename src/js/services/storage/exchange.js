@@ -1,4 +1,4 @@
-export function saveRates(base, date, coins) {
+export function saveRates({ base = '', date = '', coins = [[]] }) {
     if (!base || !date || !coins) throw new Error('Missing parameters to save rates');
     localStorage.setItem(`rates-${base}-${date}`, JSON.stringify(coins));
 }
