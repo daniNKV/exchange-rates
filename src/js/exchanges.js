@@ -1,31 +1,25 @@
 import getRates from './services/exchange.js';
 import {
-    updateDate,
-    fillSelectors,
-    populateTable,
-    watchAmountChanges,
-    validateChanges,
-    getChanges,
+    initializeTable,
+    getInput as getChanges,
+    validateInput as validateChanges,
     makeChanges,
-    
-} from './ui/ui.js';
-import { parseDate as parseTimestamp } from './ui/utils.js';
+    watchAmountChanges,
+} from './ui/main.js';
 
 async function initialize() {
     const DEFAULT_BASE = 'ARS';
     const rates = await getRates(DEFAULT_BASE);
-    const { base, coins, date, flags_source } = rates;
-    updateDate(date);
-    fillSelectors(base, coins);
-    populateTable(base, coins, flags_source);
+    initializeTable(rates);
     watchAmountChanges();
 }
 
-async function updateRates() {
+async function updateRates(e) {
     e.preventDefault();
-    const { date, currency } = getChanges();
-    if (validateChanges(date, currency)) {
-        makeChanges(date, await getRates(currency, parseTimestamp(date)));
+    const { currency, date } = getChanges();
+    if (validateChanges({ currency, date })) {
+        const rates = await getRates(currency, date);
+        makeChanges(date, rates);
     }
 }
 
