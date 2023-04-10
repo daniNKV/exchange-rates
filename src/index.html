@@ -1,81 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dist/output.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&family=Staatliches&display=swap" rel="stylesheet">
-    
-    <title>Exchange Rates</title>
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="dist/output.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&family=Staatliches&display=swap"
+            rel="stylesheet"
+        />
 
+        <title>Exchange Rates</title>
+    </head>
 
-<body>
-    <header class="flex justify-center align-middle top-0" >
-        <a data-test="logo" href="#"><img src="img/logo.png" alt="Page Logo" class="w-56"></a>
-    </header>
+    <body>
+        <header class="flex justify-center align-middle top-0">
+            <a data-test="logo" href="#"
+                ><img src="img/logo.png" alt="Page Logo" class="w-56"
+            /></a>
+        </header>
 
-    
-    <main class="flex flex-col items-center justify-center text-lg">
+        <main class="flex flex-col items-center justify-center text-lg">
+            <form
+                id="rate-selector"
+                class="flex justify-center flex-col w-11/12 max-w-md font-sans mt-5 p-5"
+            >
+                <div data-test="currency" class="flex justify-between p-1">
+                    <p>Select currency:</p>
+                    <select
+                        name="base"
+                        id="base-coin"
+                        class="w-1/2 text-center appearance-none bg-white border-b-2 border-black"
+                    >
+                        <template id="coin-option">
+                            <option value=""></option>
+                        </template>
+                    </select>
+                </div>
 
-        <form id="rate-selector" class="flex justify-center flex-col w-11/12 max-w-md font-sans mt-5 p-5">
-            
-            <div data-test="currency" class="flex justify-between p-1">
-                <p>Select currency: </p>
-                <select name="base" id="base-coin" class="w-1/2 text-center appearance-none bg-white border-b-2 border-black" >
-                    <template id="coin-option">
-                        <option value=""></option>
-                    </template>
-                </select>
-            </div>
+                <div data-test="date" class="flex justify-between p-1">
+                    <p>Enter the date:</p>
+                    <input
+                        type="date"
+                        name=""
+                        id="date-input"
+                        class="w-6/12 text-center appearance-none"
+                    />
+                </div>
 
-            <div data-test="date" class="flex justify-between p-1 ">
-                <p>Enter the date: </p>
-                <input type="date" name="" id="date-input" class="w-6/12 text-center appearance-none ">
-            </div>
+                <button
+                    type="button"
+                    id="submit-button"
+                    class="text-xl bg-zinc-800 p-2 my-3 font-display font-bold text-white hover:shadow-3xl hover:scale-105 duration-200 ease-in"
+                >
+                    Let's go!
+                </button>
+            </form>
 
-            <button type="button" id="submit-button" class="text-xl bg-zinc-800 p-2 my-3 font-display font-bold text-white hover:shadow-3xl hover:scale-105 duration-200 ease-in">Let's go!</button>
+            <table
+                data-test="rates-table"
+                class="table-auto border-b-2 w-11/12 max-w-screen-sm"
+            >
+                <thead>
+                    <tr class="border-b-2 text-center">
+                        <th colspan="2" class="w-1/2" id="table-date"></th>
 
-        </form>
-
-        <table data-test="rates-table" class="table-auto border-b-2 w-11/12 max-w-screen-sm">
-            <thead >
-                <tr class="border-b-2 text-center">
-                    <th colspan="2"  class="w-1/2" id="table-date"></th>
-                    
-                    <th colspan="2" class="w-1/2">
-                        <input id="convertion-amount" class="text-center appearance-none bg-white border-black focus:outline-none" placeholder="Amount to convert" type="number">
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody class="text-center" id="table-body">
-                <tr class="p-2 border-b-2 font-bold ">
-                    <td>Code</td>
-                    <td>Flag</td>
-                    <td>Rate</td>
-                    <td>Conversion</td>
-                </tr>
-
-                <template id="list-row">
-                    <tr data-test="values" class="row p-2 border-b-2">
-                        <td class="code"></td>
-                        <td class="flag relative"><img class="absolute inset-2/4 -translate-x-2/4 -translate-y-2/4" src="" alt="" ></td>
-                        <td class="rate"></td>
-                        <td class="value"></td>
+                        <th colspan="2" class="w-1/2">
+                            <input
+                                id="convertion-amount"
+                                class="text-center appearance-none bg-white border-black focus:outline-none"
+                                placeholder="Amount to convert"
+                                type="number"
+                            />
+                        </th>
                     </tr>
-                </template>
-            </tbody>
-        </table>
+                </thead>
 
-    </main>
+                <tbody class="text-center" id="table-body">
+                    <tr class="p-2 border-b-2 font-bold">
+                        <td>Code</td>
+                        <td>Flag</td>
+                        <td>Rate</td>
+                        <td>Conversion</td>
+                    </tr>
 
-    <footer>
+                    <template id="list-row">
+                        <tr data-test="values" class="row p-2 border-b-2">
+                            <td class="code"></td>
+                            <td class="flag relative">
+                                <img
+                                    class="absolute inset-2/4 -translate-x-2/4 -translate-y-2/4"
+                                    src=""
+                                    alt=""
+                                />
+                            </td>
+                            <td class="rate"></td>
+                            <td class="value"></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </main>
 
-    </footer>
-</body>
-<script src="js/index.js" type="module"></script>
+        <footer></footer>
+    </body>
+    <script src="js/exchanges.js" type="module"></script>
 </html>
