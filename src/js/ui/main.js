@@ -1,5 +1,9 @@
 import { parseDate, validateChanges } from './utils.js';
-import { fillSelectors, setInputDate, getChanges } from './selectors.js';
+import {
+    fillSelectors,
+    setInputDate,
+    getChanges,
+} from './selectors.js';
 import {
     populateTable,
     updateTable,
