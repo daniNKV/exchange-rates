@@ -1,20 +1,17 @@
-import { getActual, getHistorical } from './api.js';
+import { getActual, getHistorical, getFlagSource } from './api.js';
+import Rates from '../type/Rates.js';
 
 const DEFAULT_BASE = 'ARS';
+const toArray = (obj = {}) => Object.entries(obj);
 
-function getFlagSource(ALPHA_CODE_3) {
-    const parseToAlpha2 = (ALPHA_3) => ALPHA_3.slice(0, 2).toLowerCase();
-    return `https://flagcdn.com/28x21/${parseToAlpha2(ALPHA_CODE_3)}.webp`;
-}
-
-export default async function fetchRates(base = DEFAULT_BASE, date = '') {
-    const rates = date
-        ? await getHistorical(base, date)
-        : await getActual(base);
-    return {
-        base: rates.base,
-        coins: rates.exchange_rates,
-        date: rates.last_updated,
-        flagSource: getFlagSource,
-    };
+export default async function fetchRates(coin = DEFAULT_BASE, date = '') {
+    const coins = date
+        ? await getHistorical(coin, date)
+        : await getActual(coin);
+    return new Rates({
+        base: coins.base,
+        rates: toArray(coins.rates),
+        date: coins.date,
+        callback: getFlagSource,
+    });
 }
